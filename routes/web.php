@@ -22,4 +22,6 @@ Route::get('/', function () {
 Route::resource('students', StudentController::class);
 
 
-Route::get('/marketings/list', [MarketingsController::class, 'list'])->name('api.marketings.list');
+Route::post('/marketings/list', [MarketingsController::class, 'list'])->name('api.marketings.list');
+Route::post('/marketings/topRates', [MarketingsController::class, 'topRates'])->name('api.marketings.topRates');
+

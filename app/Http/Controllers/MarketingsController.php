@@ -18,4 +18,17 @@ class MarketingsController extends Controller
         $marketing = Marketings::all();
         return $marketing;
     }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function topRates(Request $request)
+    {
+        $marketing = Marketings::where('title', 'like', '%CEO%')->limit(20)->inRandomOrder()->get();
+        return $marketing;
+    }
 }
