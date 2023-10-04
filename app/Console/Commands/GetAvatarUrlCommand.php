@@ -34,11 +34,9 @@ class GetAvatarUrlCommand extends Command
         foreach($marketings as $marketing) {
             if($marketing->linkedin_url) {
                 $crawler = $client->request('GET', $marketing->linkedin_url);
-                $crawler = $client->click($crawler->selectLink('Sign in')->link());
-                $form = $crawler->selectButton('Sign in')->form();
-                $crawler = $client->submit($form, ['login' => 'fabpot', 'password' => 'xxxxxx']);
-                $crawler->filter('.flash-error')->each(function ($node) {
-                    logger()->info($node->text()."\n");
+                $crawler = $client->waitFor('#');
+                $crawler->filter('img')->each(function ($node) {
+                    logger()->info('img => src="'.$node->getNode(0)->getAttribute('src')."\" <br/>\n";);
                 });
             }
         }
