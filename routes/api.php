@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+Route::post('/marketings/list', [MarketingsController::class, 'list'])->name('api.marketings.list');
+Route::post('/marketings/topRates', [MarketingsController::class, 'topRates'])->name('api.marketings.topRates');
+Route::post('/marketings/search', [MarketingsController::class, 'search'])->name('api.marketings.search');

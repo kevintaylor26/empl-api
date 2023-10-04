@@ -22,6 +22,7 @@ class CreateMarketingsTable extends Migration
             $table->string('title');
             $table->string('company');
             $table->string('domain');
+            $table->string('avatar_url');
             $table->string('city');
             $table->timestamps();
         });
