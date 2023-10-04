@@ -17,13 +17,13 @@ class CreateMarketingsTable extends Migration
             $table->id();
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('email');
-            $table->string('linkedin_url');
-            $table->string('title');
-            $table->string('company');
-            $table->string('domain');
-            $table->string('avatar_url');
-            $table->string('city');
+            $table->string('email')->nullable();
+            $table->string('linkedin_url')->nullable();
+            $table->string('title')->nullable();
+            $table->string('company')->nullable();
+            $table->string('domain')->nullable();
+            $table->string('avatar_url')->nullable();
+            $table->string('city')->nullable();
             $table->timestamps();
         });
     }

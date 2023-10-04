@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Goutte\Client;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Command\Command as CommandAlias;
+use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpClient\HttpClient;
 
 class GetAvatarUrlCommand extends Command
@@ -30,14 +31,23 @@ class GetAvatarUrlCommand extends Command
         $marketings = Marketings::whereNull('avatar_url')
             ->whereNotNull('linkedin_url')
             ->get();
-        
+
         foreach($marketings as $marketing) {
             if($marketing->linkedin_url) {
                 logger()->info($marketing->linkedin_url . " checking......");
                 $client = new Client(HttpClient::create(['timeout' => 60]));
+
+                $response = $client->get($marketing->linkedin_url);
+                $html = (string) $response->getBody();
+                $crawler = new Crawler($html);
+                $avatarUrl = $crawler->filter('.profile-photo-edit__preview')->image()->getUri();
+                logger()->info('Avatar URL 1.....' . $avatarUrl);
+
                 $crawler = $client->request('GET', $marketing->linkedin_url, [
                     'allow_redirects' => true
                 ]);
+
+
                 // $crawler = $client->waitFor('.evi-image');
                 $crawler->filter('.evi-image')->each(function ($node) {
                     if($node->getNode(0)->getAttribute('src')) {
