@@ -30,14 +30,23 @@ class GetAvatarUrlCommand extends Command
         $marketings = Marketings::whereNull('avatar_url')
             ->whereNotNull('linkedin_url')
             ->get();
-        $client = new Client(HttpClient::create(['timeout' => 60]));
+        
         foreach($marketings as $marketing) {
             if($marketing->linkedin_url) {
-                $crawler = $client->request('GET', $marketing->linkedin_url);
-                $crawler = $client->waitFor('#');
-                $crawler->filter('img')->each(function ($node) {
-                    logger()->info('img => src="'.$node->getNode(0)->getAttribute('src')."\" <br/>\n";);
+                logger()->info($marketing->linkedin_url . " checking......");
+                $client = new Client(HttpClient::create(['timeout' => 60]));
+                $crawler = $client->request('GET', $marketing->linkedin_url, [
+                    'allow_redirects' => true
+                ]);
+                // $crawler = $client->waitFor('.evi-image');
+                $crawler->filter('.evi-image')->each(function ($node) {
+                    if($node->getNode(0)->getAttribute('src')) {
+                        logger()->info("$marketing->linkedin_url avatar url is " . $node->getNode(0)->getAttribute('src'));
+                        $marketing->avatar_url = $node->getNode(0)->getAttribute('src');
+                    }
                 });
+                $marketing->save();
+                logger()->info("FINISHED   " . $marketing->linkedin_url . " checking......");
             }
         }
         return CommandAlias::SUCCESS;
