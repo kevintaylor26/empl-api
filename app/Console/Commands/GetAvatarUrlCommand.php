@@ -37,12 +37,13 @@ class GetAvatarUrlCommand extends Command
                 logger()->info($marketing->linkedin_url . " checking......");
                 $client = new Client(HttpClient::create(['timeout' => 60]));
 
-                $response = $client->get($marketing->linkedin_url);
-                $html = (string) $response->getBody();
-                $crawler = new Crawler($html);
-                $avatarUrl = $crawler->filter('.profile-photo-edit__preview')->image()->getUri();
-                logger()->info('Avatar URL 1.....' . $avatarUrl);
+                $response = $client->request('GET', $marketing->linkedin_url, [
+                    'allow_redirects' => true
+                ]);
+                logger()->info($client->getResponse()->getContent());
+                logger()->info(json_encode($client->getResponse()->getHeaders()));
 
+                break;
                 $crawler = $client->request('GET', $marketing->linkedin_url, [
                     'allow_redirects' => true
                 ]);
@@ -57,6 +58,7 @@ class GetAvatarUrlCommand extends Command
                 });
                 $marketing->save();
                 logger()->info("FINISHED   " . $marketing->linkedin_url . " checking......");
+                break;
             }
         }
         return CommandAlias::SUCCESS;
