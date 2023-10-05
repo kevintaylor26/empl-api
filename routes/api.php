@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MarketingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +19,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/marketings/list', [MarketingsController::class, 'list'])->name('api.marketings.list');
 Route::post('/marketings/topRates', [MarketingsController::class, 'topRates'])->name('api.marketings.topRates');
-Route::post('/marketings/search', [MarketingsController::class, 'search'])->name('api.marketings.search');
+Route::post('/marketings/free_search', [MarketingsController::class, 'free_search'])->name('api.marketings.free_search');
+Route::post('/auth/signin', [AuthController::class, 'login'])->name('api.auth.login');
+Route::post('/auth/signup', [AuthController::class, 'signup'])->name('api.auth.signup');
+Route::middleware('auth:sanctum')->post('/auth/autologin', [AuthController::class, 'autologin'])->name('api.auth.autologin');
+Route::middleware('auth:sanctum')->post('/marketings/search', [MarketingsController::class, 'search'])->name('api.marketings.search');

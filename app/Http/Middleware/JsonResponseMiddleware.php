@@ -22,8 +22,6 @@ class JsonResponseMiddleware
             'code' => 0,
             'message' => 'ok',
         ];
-        logger('AAA');
-
         // responseDoNotWrap
         $responseDoNotWrap = config('common.responseDoNotWrap', []);
         if (count($responseDoNotWrap)) {
