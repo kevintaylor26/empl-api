@@ -15,6 +15,15 @@ class AuthController extends CustomBaseController
 {
 
     use ControllerTrait;
+    public function loginPage()
+    {
+        return view('auth.login');
+    }
+
+    public function signupPage()
+    {
+        return view('auth.register');
+    }
     //
     /**
      * Store a newly created resource in storage.

@@ -93,7 +93,7 @@ class MarketingsController extends CustomBaseController
             ->orWhereLike($params['criteria'], 'company')
             ->orWhereLike($params['criteria'], 'domain')
             ->orWhereLike($params['criteria'], 'city')
-            ->paginate($this->perPage());
+            ->limit(5)->get();
         return $marketing;
     }
 }

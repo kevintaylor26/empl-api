@@ -112,12 +112,12 @@
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul class="navbar-nav mr-auto w-100 justify-content-end">
                                     <li class="nav-item" style="display: flex; align-items: center;">
-                                        <a class="nav-link" href="contact-us.html" role="button">
+                                        <a class="nav-link" href="signup" role="button">
                                             GET INSTANT ACCESS
                                         </a>
                                     </li>
                                     <li class="nav-item" style="display: flex; align-items: center;">
-                                        <a class="iq-button iq-gradient-btn d-inline-block" style="padding: 5px 30px; font-size: 17px;" href="about-us.html">
+                                        <a class="iq-button iq-gradient-btn d-inline-block" style="padding: 5px 30px; font-size: 17px;" href="signin">
                                             <span>
                                                 <i class="fa fa-user mr-1" aria-hidden="true"></i>
                                                 Login

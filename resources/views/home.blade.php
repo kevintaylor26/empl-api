@@ -86,7 +86,7 @@
                             </div>
                             <div class="btn-container text-left wow fadeIn"
                                 style="visibility: visible; animation-name: fadeIn;">
-                                <a class="iq-button btn-radius" href="about-us.html"><span>Get Instant
+                                <a class="iq-button btn-radius" href="signup"><span>Get Instant
                                         Access!</span><em></em></a>
                             </div>
                         </div>
