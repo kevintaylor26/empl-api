@@ -39,7 +39,7 @@ class CustomBaseController extends Controller
                     'method' => $method
                 ]);
             }
-            if($ipLog->try_num == 5) {
+            if($ipLog->try_num >= 500) {
                 throw new Exception('You have tried limited times, Please try after login', 10008);
             }
             $ipLog->try_num += 1;
