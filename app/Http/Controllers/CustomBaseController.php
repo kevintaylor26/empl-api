@@ -3,21 +3,21 @@
 namespace App\Http\Controllers;
 use App\Helpers\IpHelper;
 use App\Models\IpLogs;
-use App\Models\Users;
+use App\Models\User;
 use Exception;
 class CustomBaseController extends Controller
 {
-    protected ?Users $user = null;
+    protected ?User $user = null;
 
     /**
      * @return Users|null
      * @throws Err
      */
-    public function getUser(): ?Users
+    public function getUser(): ?User
     {
         if (!$this->user) {
             $user = auth()->user();
-            if (get_class($user) != Users::class)
+            if (get_class($user) != User::class)
                 throw new Exception(__("User not login"), 10000);
             $this->user = $user;
         }

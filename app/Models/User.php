@@ -6,7 +6,7 @@ use App\Traits\ModelTrait;
 use Laravel\Sanctum\HasApiTokens;
 
 
-class Users extends BaseUsers
+class User extends BaseUsers
 {
     use HasApiTokens, ModelTrait;
 }

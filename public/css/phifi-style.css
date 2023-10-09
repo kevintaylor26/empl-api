@@ -503,13 +503,6 @@ header .navbar .navbar-nav .nav-item a.active:hover,
     box-shadow: none;
 }
 
-header .navbar .navbar-nav .nav-item a:hover,
-header .navbar .navbar-nav .nav-item a:focus,
-header .navbar .navbar-nav .nav-item a.active,
-header .navbar .navbar-nav .nav-item a.active:focus,
-header .navbar .navbar-nav .nav-item a.active:hover {
-    border: 1px solid black;
-}
 
 header .navbar .navbar-nav .nav-item a.active::before,
 header .navbar .navbar-nav .nav-item:hover>a::before,
@@ -5443,18 +5436,23 @@ input[type=email]:hover {
     padding: 5px 15px;
     border-top-left-radius: 15px;
     border-bottom-right-radius: 15px;
+
 }
 
 .popular-searches .iq-button span {
     text-transform: inherit;
-    font-family: serif;
+    font-family: sans-serif;
     font-weight: 600;
+    letter-spacing: 2px;
+    transform: inherit;
+    text-align: center;
 }
+
 .to-regist.iq-agency-block:after {
     background: transparent;
 }
 
-#loom-companion-mv3{
+#loom-companion-mv3 {
     display: none;
 }
 
@@ -5622,6 +5620,7 @@ input[type=email]:hover {
         transform: translate(-50%, -50%) rotate(405deg);
     }
 }
+
 /**-- Color-1 Light --**/
 .theme-clr,
 .hvr-clr:hover,
@@ -5697,6 +5696,7 @@ a:hover,
     box-shadow: 0px 0px 10px #f17d68, 0px 0px 20px #f17d68, 0px 0px 30px #f17d68, 0px 0px 50px #f17d68, 0px 0px 60px #f17d68;
     background-color: #f17d68;
 }
+
 /**-- Preloader --**/
 @-webkit-keyframes small {
     0% {
@@ -5777,4 +5777,70 @@ a:hover,
 
 .email-link {
     color: black;
+}
+
+.nav-instant-access {
+    border: 1px solid transparent;
+}
+
+.nav-instant-access:hover {
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1) !important;
+    -moz-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dropdown i {
+    -webkit-transition: all 0.5s ease-out 0s;
+    -moz-transition: all 0.5s ease-out 0s;
+    -ms-transition: all 0.5s ease-out 0s;
+    -o-transition: all 0.5s ease-out 0s;
+    transition: all 0.5s ease-out 0s;
+}
+
+.dropdown-item:hover i {
+    color: white;
+}
+
+.nav-instant-access:hover i {
+    color: #eb6e57;
+}
+
+.btn-normal {
+    align-items: center;
+    display: flex;
+    padding: 3px 10px;
+    justify-content: center;
+}
+
+.btn-normal:hover span {
+    color: #eb6e57;
+}
+
+.instant-activate {
+    align-items: center;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 2px 5px;
+    cursor: pointer;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.password-info input{
+    height: 40px;
+}
+
+.password-info .btn {
+    border: 1px solid grey;
+    border-radius: 5px;
+    color: black;
+    padding: 2px 10px;
+}
+
+.password-info .btn-update{
+    border-color: #eb6e57;
+    color: #eb6e57;
 }

@@ -22,5 +22,6 @@ Route::post('/marketings/topRates', [MarketingsController::class, 'topRates'])->
 Route::post('/marketings/free_search', [MarketingsController::class, 'free_search'])->name('api.marketings.free_search');
 Route::post('/auth/signin', [AuthController::class, 'login'])->name('api.auth.login');
 Route::post('/auth/signup', [AuthController::class, 'signup'])->name('api.auth.signup');
-Route::middleware('auth:sanctum')->post('/auth/autologin', [AuthController::class, 'autologin'])->name('api.auth.autologin');
-Route::middleware('auth:sanctum')->post('/marketings/search', [MarketingsController::class, 'search'])->name('api.marketings.search');
+Route::middleware('auth')->post('/auth/autologin', [AuthController::class, 'autologin'])->name('api.auth.autologin');
+Route::middleware('auth')->post('/auth/changePassword', [AuthController::class, 'changePassword'])->name('api.auth.changePassword');
+Route::middleware('auth')->post('/marketings/search', [MarketingsController::class, 'search'])->name('api.marketings.search');

@@ -4,6 +4,7 @@ namespace App\Models\Base;
 
 use App\Traits\ModelTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations;
 use App\Models;
@@ -26,7 +27,7 @@ use App\Models;
  * @method static withTrashed()
 
  */
-class BaseUsers extends Model
+class BaseUsers extends Authenticatable
 {
     use HasFactory, ModelTrait;
 

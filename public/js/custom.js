@@ -45,11 +45,11 @@ Design and Developed by: iqonicthemes.in
             Header
             --------------------------*/
             $('.navbar-nav li a').on('click', function(e) {
-                var anchor = $(this);
-                $('html, body').stop().animate({
-                    scrollTop: $(anchor.attr('href')).offset().top - 0
-                }, 1500);
-                e.preventDefault();
+                // var anchor = $(this);
+                // $('html, body').stop().animate({
+                //     scrollTop: $(anchor.attr('href')).offset().top - 0
+                // }, 1500);
+                // e.preventDefault();
             });
 
             function headerHeight() {

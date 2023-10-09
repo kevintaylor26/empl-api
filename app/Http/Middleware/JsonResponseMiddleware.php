@@ -30,7 +30,6 @@ class JsonResponseMiddleware
                 return $response;
             }
         }
-
         // if is json response
         if ($response instanceof JsonResponse) {
 

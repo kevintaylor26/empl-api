@@ -112,9 +112,9 @@
                 </div>
                 <div class="row text-center position-relative">
                     <div class="col-sm-12">
-                        <div class="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false" data-dots="true"
-                            data-items="3" data-items-laptop="3" data-items-tab="2" data-items-mobile="1"
-                            data-items-mobile-sm="1" data-margin="30">
+                        <div class="owl-carousel" data-autoplay="true" data-loop="true" data-nav="false"
+                            data-dots="true" data-items="3" data-items-laptop="3" data-items-tab="2"
+                            data-items-mobile="1" data-items-mobile-sm="1" data-margin="30">
                             <div class="item">
                                 <div class="iq-portfolio2">
                                     <div class="iq-portfolio-img-block">
@@ -200,6 +200,7 @@
         </section>
 
     </main>
+
     <script>
         @auth
         const url = "{{ route('api.marketings.search') }}";
@@ -223,16 +224,25 @@
                     if (res.code == 0) {
                         if (res.data?.length > 0) {
                             $('#btnDownloadCsv').show();
-                            res.data.forEach(function(item){
+                            res.data.forEach(function(item) {
                                 let tagRes = '<tr>';
-                                tagRes += '<td class="result-detail text-left">' + item.first_name + ' ' + item.last_name + '</td>';
+                                tagRes += '<td class="result-detail text-left">' + item.first_name +
+                                    ' ' + item.last_name + '</td>';
                                 tagRes += '<td class="result-detail">' + item.title + '</td>';
-                                const domain = item.domain.startsWith('http') ? item.domain : 'https://' + item.domain
-                                let domainUrl = '<br><a href="' + domain + '" target="_blank">' + item.domain + '</a>';
-                                tagRes += '<td class="result-detail">' + item.company + domainUrl + '</td>';
-                                const email = '<i class="ion-ios-email" style="vertical-align: middle; font-size: 20px;"></i> : <a class="email-link" href="' + item.email + '">' + item.email + '</a>';;
-                                const linkedin = '<br><i class="ion-social-linkedin" style="vertical-align: middle; font-size: 20px;"></i> : <a class="email-link" href="' + item.linkedin_url + '">LinkedIn</a>';
-                                tagRes += '<td class="result-detail text-left">' + email + linkedin + '</td>';
+                                const domain = item.domain.startsWith('http') ? item.domain :
+                                    'https://' + item.domain
+                                let domainUrl = '<br><a href="' + domain + '" target="_blank">' + item
+                                    .domain + '</a>';
+                                tagRes += '<td class="result-detail">' + item.company + domainUrl +
+                                    '</td>';
+                                const email =
+                                    '<i class="ion-ios-email" style="vertical-align: middle; font-size: 20px;"></i> : <a class="email-link" href="' +
+                                    item.email + '">' + item.email + '</a>';;
+                                const linkedin =
+                                    '<br><i class="ion-social-linkedin" style="vertical-align: middle; font-size: 20px;"></i> : <a class="email-link" href="' +
+                                    item.linkedin_url + '">LinkedIn</a>';
+                                tagRes += '<td class="result-detail text-left">' + email + linkedin +
+                                    '</td>';
                                 tagRes += '<td class="result-detail">' + item.city + '</td>';
                                 tagRes += '</tr>';
                                 $('#tbodyResult').append($(tagRes));

@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\CustomBaseController;
 use App\Models\Marketings;
+use App\Models\User;
 use App\Models\Users;
 use App\Traits\ControllerTrait;
 use Exception;
+
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AuthController extends CustomBaseController
 {
@@ -24,6 +29,11 @@ class AuthController extends CustomBaseController
     {
         return view('auth.register');
     }
+
+    public function throttleKey(Request $request)
+    {
+        return Str::lower($request->input('user_id')) . '|' . $request->ip();
+    }
     //
     /**
      * Store a newly created resource in storage.
@@ -35,12 +45,18 @@ class AuthController extends CustomBaseController
     {
         $params = $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
+            'remember' => 'nullable',
         ]);
-        $user = Users::ifWhere($params, 'email')
+        $user = User::ifWhere($params, 'email')
             ->first();
         if (!$user || !Hash::check($params['password'], $user->password)) {
             throw new Exception("Account or password error");
+        }
+        if (!Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
+            RateLimiter::hit($this->throttleKey($request));
+
+            throw new Exception(__('auth.failed'));
         }
         $user->tokens()->where('name', 'customer')->delete();
         return [
@@ -61,10 +77,10 @@ class AuthController extends CustomBaseController
             'email' => 'required|email',
             'password' => 'required'
         ]);
-        $user = Users::ifWhere($params, 'email')->first();
+        $user = User::ifWhere($params, 'email')->first();
         if ($user)
             throw new Exception("Email already exists");
-        $user = Users::create([
+        $user = User::create([
             'email' => $params['email'],#
             'password' => bcrypt($params['password']),
         ]);
@@ -72,6 +88,12 @@ class AuthController extends CustomBaseController
             throw new Exception("Account or password error");
         }
         $user->tokens()->where('name', 'customer')->delete();
+
+        if (!Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
+            RateLimiter::hit($this->throttleKey($request));
+
+            throw new Exception(__('auth.failed'));
+        }
         return [
             'user' => $user,
             'token' => ['access_token' => $user->createToken('customer', ['customer'])->plainTextToken],
@@ -89,5 +111,29 @@ class AuthController extends CustomBaseController
         return $user->toArray();
     }
 
+    public function signout(Request $request)
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $params = $request->validate([
+            'oldPassword' => 'required|string',
+            'newPassword' => 'required|string'
+        ]);
+        $user = $this->getUser();
+        if (!$user || !Hash::check($params['oldPassword'], $user->password)) {
+            throw new Exception("Incorrect old password");
+        }
+        $user->password = bcrypt($params['newPassword']);
+        $user->save();
+    }
 
 }
