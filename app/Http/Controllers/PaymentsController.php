@@ -42,8 +42,8 @@ class PaymentsController extends CustomBaseController
             'payment_intent_data' => [
                 'description' => 'This is test stripe mode'
             ],
-            'success_url' => 'http://127.0.0.1:8002/home',
-            'cancel_url' => 'http://127.0.0.1:8002/home',
+            'success_url' => 'http://167.88.166.94:8080/home',
+            'cancel_url' => 'http://167.88.166.94:8080/home',
             'customer_email' => auth()->user()->email,
             'metadata' => [
                 'user_id' => auth()->user()->id,
