@@ -127,11 +127,21 @@
                             </button>
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul class="navbar-nav mr-auto w-100 justify-content-end">
-                                    @if (!Auth::user() || !Auth::user()->is_paid)
+                                    @if (!Auth::user())
                                         <li class="nav-item" style="display: flex; align-items: center;">
                                             <a class="nav-link nav-instant-access" href="signup" role="button">
-                                                GET INSTANT ACCESS
+                                                Access All Data
                                             </a>
+                                        </li>
+                                    @elseif (Auth::user() && !Auth::user()->is_paid)
+                                        <li class="nav-item" style="display: flex; align-items: center;">
+                                            <a class="nav-link nav-instant-access" href="payout" role="button">
+                                                Access All Data
+                                            </a>
+                                        </li>
+                                    @elseif (Auth::user() && Auth::user()->is_paid)
+                                        <li class="nav-item" style="display: flex; align-items: center;">
+                                            <h4>{{ $expired_days }} Days Left To Access All Data</h4>
                                         </li>
                                     @endif
                                     @if (Auth::user())
@@ -310,14 +320,14 @@
                             newPassword: $('#newPassword').val()
                         },
                         success: function(res) {
-                            if (res.code == 0) {
-                                window.location.href = '/';
+                            if (res.code) {
+                                toastMessage('error', res.message ?? 'An error occured while signning up');
                             } else {
-                                toastMessage('error', res.message);
+                                toastMessage('success', 'Updated password successfully!');
                             }
                         },
                         error: function(msg) {
-                            toastMessage('error', 'An error occured while signning up');
+                            toastMessage('error', msg.message ?? 'An error occured while signning up');
                         }
                     });
                 }

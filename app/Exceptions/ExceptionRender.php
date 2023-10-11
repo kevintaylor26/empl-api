@@ -25,8 +25,7 @@ class ExceptionRender
         if ($class != Err::class)
             switch ($class) {
                 case AuthenticationException::class:
-                    logger('AAAAAAAAAAAAA');
-                    throw new Exception(__("User not login"), 10000);
+                    return redirect('/loginPage');
 //                case NotFoundHttpException::class:
 //                case ValidationException::class:
 //                case ArgumentCountError::class:

@@ -139,14 +139,14 @@
                     password: $('#password').val()
                 },
                 success: function(res) {
-                    if (res.code == 0) {
-                        window.location.href = '/home';
+                    if(res.code) {
+                        toastMessage('error', msg.message ?? 'An error occured while signning up');
                     } else {
-                        toastMessage('error', res.message);
+                        window.location.href = '/home';
                     }
                 },
                 error: function(msg) {
-                    toastMessage('error', 'An error occured while signning up');
+                    toastMessage('error', msg.message ?? 'An error occured while signning up');
                 }
             });
         })

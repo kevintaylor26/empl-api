@@ -20,8 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/marketings/list', [MarketingsController::class, 'list'])->name('api.marketings.list');
 Route::post('/marketings/topRates', [MarketingsController::class, 'topRates'])->name('api.marketings.topRates');
 Route::post('/marketings/free_search', [MarketingsController::class, 'free_search'])->name('api.marketings.free_search');
-Route::post('/auth/signin', [AuthController::class, 'login'])
-    ->middleware('guest')->name('api.auth.login');
+Route::post('/auth/signin', [AuthController::class, 'login'])->name('api.auth.login');
 Route::post('/auth/signup', [AuthController::class, 'signup'])->name('api.auth.signup');
 Route::middleware('auth')->post('/auth/autologin', [AuthController::class, 'autologin'])->name('api.auth.autologin');
 Route::middleware('auth')->post('/auth/changePassword', [AuthController::class, 'changePassword'])->name('api.auth.changePassword');

@@ -5,6 +5,7 @@ use App\Helpers\IpHelper;
 use App\Models\IpLogs;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Carbon;
 class CustomBaseController extends Controller
 {
     protected ?User $user = null;
@@ -39,9 +40,21 @@ class CustomBaseController extends Controller
                     'method' => $method
                 ]);
             }
-            if($ipLog->try_num >= 500) {
-                throw new Exception('You have tried limited times, Please try after login', 10008);
+            $ipLog->can_download = 0;
+            $ipLog->save();
+            if($ipLog->try_num >= 5) {
+                $freeAt = Carbon::parse($ipLog->updated_at)->addHours(8);
+                if($freeAt > now()) {
+                    $minutes = now()->diffInMinutes($freeAt);
+                    $hours = floor($minutes / 60);
+                    $minutes = $minutes % 60;
+                    throw new Exception("You must wait $hours hrs $minutes mins to search for free", 10008);
+                } else {
+                    $ipLog->try_num -= 1;
+                    $ipLog->save();
+                }
             }
+            $ipLog->can_download = 1;
             $ipLog->try_num += 1;
             $ipLog->save();
         } else {
@@ -50,12 +63,49 @@ class CustomBaseController extends Controller
                 ->first();
             if(!$ipLog) {
                 $ipLog = IpLogs::create([
+                    'users_id' => $user->id,
                     'ip_address' => $ipAddr,
                     'method' => $method
                 ]);
             }
-            $ipLog->try_num += 1;
+            $ipLog->can_download = 0;
             $ipLog->save();
+            if($ipLog->try_num >= 5 && !$user->is_paid) {
+                $freeAt = Carbon::parse($ipLog->updated_at)->addHours(8);
+                if($freeAt > now()) {
+                    $minutes = now()->diffInMinutes($freeAt);
+                    $hours = floor($minutes / 60);
+                    $minutes = $minutes % 60;
+                    throw new Exception("You must wait $hours hrs $minutes mins to search for free", 10008);
+                } else {
+                    $ipLog->try_num -= 1;
+                    $ipLog->save();
+                }
+            } else if($user->is_paid == 1 && $user->last_paid_at) {
+                $lastPaidAt = Carbon::parse($user->last_paid_at);
+                if($lastPaidAt->addMonth() < now()) {
+                    $user->is_paid = 0;
+                    $user->save();
+                    if($ipLog->try_num >= 5) {
+                        $freeAt = Carbon::parse($ipLog->updated_at)->addHours(8);
+                        if($freeAt > now()) {
+                            $minutes = now()->diffInMinutes($freeAt);
+                            $hours = floor($minutes / 60);
+                            $minutes = $minutes % 60;
+                            throw new Exception("You unlimited search option has been expired, You must wait $hours hrs $minutes mins to search for free", 10008);
+                        } else {
+                            $ipLog->try_num -= 1;
+                            $ipLog->save();
+                        }
+                    }
+                }
+            }
+            if(!$user->is_paid) {
+                $ipLog->try_num += 1;
+                $ipLog->can_download = 1;
+                $ipLog->save();
+            }
         }
     }
+
 }

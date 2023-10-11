@@ -194,4 +194,11 @@ return [
         // ...
     ])->toArray(),
 
+    /* *
+    STRIPE KEYS
+    */
+    'STRIPE_KEY' => 'pk_test_51NQGGtDEfO6qthP7FlT3UiGdCWaMBI4QKLUlpr5KVw7lLYiVBq7IjXpxO4xcKHrMK8LsnC9qYvjysLUWixtiRCHl001qnjQI5y',
+    'STRIPE_SECRET' => 'sk_test_51NQGGtDEfO6qthP7TP7gWXGYrMBlF79V8fRQAdV0KOj93hsjn5szjZN65yszjZK8doY4vdLf7QAzJsNbRKGbC9C100xiJzOkCa',
+
+
 ];

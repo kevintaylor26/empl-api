@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-lg-2 col-md-3" style="display: flex !important; justify-content: end;">
                         <div id="btnDownloadCsv" class="btn-container" style="width: 100px; display:none;">
-                            <a class="iq-button d-inline-block" href="our-team.html"
+                            <a class="iq-button d-inline-block" href="javascript:download()"
                                 style="display: flex !important;padding-right: 10px; align-items: center; padding: 10px 20px;justify-content: center;">
                                 <span style="font-size: 18px;">CSV</span><i class="fa fa-file-text-o"
                                     style="margin-top: -5px; margin-left: 5px;"></i>
@@ -70,30 +70,56 @@
             </div>
             <img src="images/fancybox/overlay.png" class="overlay-left-bottom" alt="#" style="z-index: -1">
         </section>
-        <div class="to-regist iq-agency-block" style="margin-top: 30px;">
-            <div class="auto-container" style="padding: 0px 0px 0px 50px;">
-                <div class="inner-container" style="padding: 30px 100px 30px 95px;border-bottom: 2px solid #f05c42;">
-                    <div class="iq-pattern-style" style="width: 100%;"></div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="text-left iq-title-box">
-                                <h2 class="iq-title text-white text-uppercase wow fadeIn"
-                                    style="visibility: visible; animation-name: fadeIn;">You are currently viewing 5 out of
-                                    28,000+ results</h2>
-                                <p class="text-white wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
-                                    Get instant access + lifetime updates to the full database of attendees and their
-                                    contact information:</span></p>
-                            </div>
-                            <div class="btn-container text-left wow fadeIn"
-                                style="visibility: visible; animation-name: fadeIn;">
-                                <a class="iq-button btn-radius" href="signup"><span>Get Instant
-                                        Access!</span><em></em></a>
+        @if (!Auth::user() || !Auth::user()->is_paid)
+            <div class="to-regist iq-agency-block" style="margin-top: 30px;">
+                <div class="auto-container" style="padding: 0px 0px 0px 50px;">
+                    <div class="inner-container" style="padding: 30px 100px 30px 95px;border-bottom: 2px solid #f05c42;">
+                        <div class="iq-pattern-style" style="width: 100%;"></div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="text-left iq-title-box">
+                                    <h2 class="iq-title text-white text-uppercase wow fadeIn"
+                                        style="visibility: visible; animation-name: fadeIn;">You are currently viewing 5 out
+                                        of
+                                        28,000+ results</h2>
+                                    <p class="text-white wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+                                        Access all data + lifetime updates to the full database of attendees and their
+                                        contact information:</span></p>
+                                </div>
+                                <div class="btn-container text-left wow fadeIn"
+                                    style="visibility: visible; animation-name: fadeIn;">
+                                    @if (!Auth::user())
+                                        <a class="iq-button btn-radius" href="signup"><span>Access All
+                                                Data!</span><em></em></a>
+                                    @else
+                                        <a class="iq-button btn-radius" href="payout"><span>Access All
+                                                Data!</span><em></em></a>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @else
+            <div class="to-regist iq-agency-block" style="margin-top: 50px;">
+                <div class="auto-container" style="padding: 0px 0px 0px 50px;">
+                    <div class="inner-container" style="padding: 30px 100px 30px 95px;border-bottom: 2px solid #f05c42;">
+                        <div class="iq-pattern-style" style="width: 100%;"></div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="text-left iq-title-box">
+                                    <h2 class="iq-title text-white text-uppercase wow fadeIn"
+                                        style="visibility: visible; animation-name: fadeIn;">You are currently viewing unlimited 28,000+ results</h2>
+                                    <p class="text-white wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
+                                        You can access all data!! </span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
         <section class="position-relative overview-block-ptb drak-bg overview-block-ptb iq-portfolio-after"
             style="padding-top: 30px;">
             <div class="container">
@@ -198,7 +224,29 @@
                 </div>
             </div>
         </section>
+        <div id="limitModal" tabindex="-1" aria-hidden="true" class="modal fade">
+            <div class="modal-dialog" size="lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Account Information</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h1>You have reached the free search limit<span style="color: red">*</span></h1>
+                        <p id="msgFromServer"></p>
+                        <span>OR</span>
+                        <h2>Upgrade now to access all data + unlimited searches:</h2>
+                        <button>Access All Data!</button>
 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -207,7 +255,19 @@
         @else
             const url = "{{ route('api.marketings.free_search') }}";
         @endif
+        let lastQuery = '';
+        function download() {
+            if(lastQuery) {
+                var link = document.createElement("a");
+                link.href = "{{ route('marketings.download') }}" + "?criteria=" + lastQuery;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                delete link;
+            }
+        }
         function searchCriteria(criteria) {
+            lastQuery = criteria;
             $('input[name="criteria"]').val(criteria);
             $('#preloader').show();
             $.ajax({
@@ -219,12 +279,12 @@
                 },
                 success: function(res) {
                     $('#preloader').hide();
-                    $('#sectionSrchResult').show();
-                    $('#tbodyResult').html('');
-                    if (res.code == 0) {
-                        if (res.data?.length > 0) {
+                    if (!res.code) {
+                        $('#sectionSrchResult').show();
+                        $('#tbodyResult').html('');
+                        if (res?.length > 0) {
                             $('#btnDownloadCsv').show();
-                            res.data.forEach(function(item) {
+                            res.forEach(function(item) {
                                 let tagRes = '<tr>';
                                 tagRes += '<td class="result-detail text-left">' + item.first_name +
                                     ' ' + item.last_name + '</td>';
@@ -252,6 +312,11 @@
                             let tagRes = '<tr><td colspan=5 class="no-result-found">No Result Found</td></tr>';
                             $('#tbodyResult').append($(tagRes));
                         }
+                    } else if (res.code == 10008) {
+                        $('#msgFromServer').html(res.message);
+                        $('#limitModal').modal('show');
+                    } else {
+                        toastMessage('error', res.message ?? 'An error occured while signning up');
                     }
 
                 },
@@ -261,6 +326,7 @@
                     $('#tbodyResult').html('');
                     let tagRes = '<tr><td colspan=5 class="no-result-found">No Result Found</td></tr>';
                     $('#tbodyResult').append($(tagRes));
+                    toastMessage('error', msg.message ?? 'An error occured while signning up');
                     console.log(msg);
                 }
             });

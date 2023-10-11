@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('users_id')->nullable();
             $table->string('ip_address', 100);
             $table->string('method', 100)->nullable();
+            $table->unsignedInteger('can_download')->default(0);
             $table->unsignedInteger('try_num')->default(0);
             $table->timestamps();
         });

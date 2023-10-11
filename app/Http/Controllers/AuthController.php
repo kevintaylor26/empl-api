@@ -58,6 +58,7 @@ class AuthController extends CustomBaseController
 
             throw new Exception(__('auth.failed'));
         }
+        RateLimiter::clear($this->throttleKey($request));
         $user->tokens()->where('name', 'customer')->delete();
         return [
             'user' => $user,

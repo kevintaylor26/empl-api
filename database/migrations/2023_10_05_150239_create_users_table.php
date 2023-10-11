@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password', 100)->nullable();
             $table->string('full_name', 100)->nullable();
             $table->boolean('is_paid')->default(0);
+            $table->dateTime('last_paid_at')->comment('Last paid date')->nullable();
             $table->timestamps();
         });
     }

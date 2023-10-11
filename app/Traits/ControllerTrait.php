@@ -33,7 +33,7 @@ trait ControllerTrait
         if (!isset($params['perPage']) || !is_numeric($params['perPage']))
             return 20;
 
-        $allow = config('common.perPageAllow', [10, 20, 50, 100, 1000]);
+        $allow = config('common.perPageAllow', [10, 20, 50, 100, 1000, 10000]);
         if (!in_array($params['perPage'], $allow))
             throw new Exception('[perPage] is not in the range');
 
