@@ -42,7 +42,7 @@ class PaymentsController extends CustomBaseController
             'payment_intent_data' => [
                 'description' => 'This is test stripe mode'
             ],
-            'success_url' => 'http://167.88.166.94:8080/home',
+            'success_url' => 'http://167.88.166.94:8080/paySuccess',
             'cancel_url' => 'http://167.88.166.94:8080/home',
             'customer_email' => auth()->user()->email,
             'metadata' => [
@@ -89,6 +89,17 @@ class PaymentsController extends CustomBaseController
                 }
             }
         }
+    }
+
+    function paySuccess()
+    {
+        $user = $this->getUser();
+        if($user) {
+            $user->is_paid = 1;
+            $user->last_paid_at = now();
+            $user->save();
+        }
+        return redirect('/home');
     }
 
 }

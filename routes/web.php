@@ -14,4 +14,6 @@ Route::get('/signup', [AuthController::class, 'signupPage'])->name('auth.signupP
 Route::get('/signout', [AuthController::class, 'signout'])->name('api.auth.signout');
 Route::get('/download', [MarketingsController::class, 'download'])->name('marketings.download');
 Route::get('/payment_hook', [PaymentsController::class, 'payment_hook'])->name('payments.payment_hook');
+Route::get('/paySuccess', [PaymentsController::class, 'paySuccess'])->name('payments.paySuccess');
+
 
