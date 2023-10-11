@@ -110,7 +110,8 @@
                             <div class="col-lg-12">
                                 <div class="text-left iq-title-box">
                                     <h2 class="iq-title text-white text-uppercase wow fadeIn"
-                                        style="visibility: visible; animation-name: fadeIn;">You are currently viewing unlimited 28,000+ results</h2>
+                                        style="visibility: visible; animation-name: fadeIn;">You are currently viewing
+                                        unlimited 28,000+ results</h2>
                                     <p class="text-white wow fadeIn" style="visibility: visible; animation-name: fadeIn;">
                                         You can access all data!! </span></p>
                                 </div>
@@ -234,11 +235,26 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h1>You have reached the free search limit<span style="color: red">*</span></h1>
-                        <p id="msgFromServer"></p>
-                        <span>OR</span>
-                        <h2>Upgrade now to access all data + unlimited searches:</h2>
-                        <button>Access All Data!</button>
+                        <h1 style="text-align: center">You have reached the free search limit<span
+                                style="color: red">*</span></h1>
+                        <p id="msgFromServer" style="text-align: center"></p>
+                        <h2 style="text-align: center"><span>OR</span></h2>
+                        <h3 style="text-align: center">Upgrade now to access all data + unlimited searches:</h3>
+                        <div class="row text-center mt-3" style="justify-content: center" id="dvBtnChangePsd">
+                            <div class="col-6">
+                                @if (Auth::user())
+                                    <a class="btn-normal iq-button d-flex" style="align-items: center" href="payout">
+                                        <i class="fa fa-key mr-2"></i>
+                                        <span>Access All Data</span>
+                                    </a>
+                                @elseif(!Auth::user())
+                                    <a class="btn-normal iq-button d-flex" style="align-items: center" href="signup">
+                                        <i class="fa fa-key mr-2"></i>
+                                        <span>Access All Data</span>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
 
                     </div>
                     <div class="modal-footer">
@@ -256,8 +272,9 @@
             const url = "{{ route('api.marketings.free_search') }}";
         @endif
         let lastQuery = '';
+
         function download() {
-            if(lastQuery) {
+            if (lastQuery) {
                 var link = document.createElement("a");
                 link.href = "{{ route('marketings.download') }}" + "?criteria=" + lastQuery;
                 document.body.appendChild(link);
@@ -266,6 +283,7 @@
                 delete link;
             }
         }
+
         function searchCriteria(criteria) {
             lastQuery = criteria;
             $('input[name="criteria"]').val(criteria);
