@@ -32,7 +32,7 @@ class PaymentsController extends CustomBaseController
                     'name' => 'Access All Marketing Data',
                     'description' => 'AAAAAAAAAAA',
                 ],
-                'unit_amount' => 247 * 100,
+                'unit_amount' => 200 * 100,
             ],
             'quantity' => 1,
         ]];
@@ -42,8 +42,8 @@ class PaymentsController extends CustomBaseController
             'payment_intent_data' => [
                 'description' => 'This is test stripe mode'
             ],
-            'success_url' => 'http://167.88.166.94:8080/paySuccess',
-            'cancel_url' => 'http://167.88.166.94:8080/home',
+            'success_url' => 'http://emaildata.co/paySuccess',
+            'cancel_url' => 'http://emaildata.co/home',
             'customer_email' => auth()->user()->email,
             'metadata' => [
                 'user_id' => auth()->user()->id,

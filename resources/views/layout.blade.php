@@ -10,8 +10,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="og:site_name" content="Data Company" />
     <meta name="og:title" content="DATA COMPANY" />
-    <meta name="og:url" content="https://167.88.166.94:8080/" />
-    <meta name="og:image" content="https://167.88.166.94:8080/images/datacompnay.jpeg" />
+    <meta name="og:url" content="https://emaildata.co/" />
+    <meta name="og:image" content="https://emaildata.co/images/datacompnay.jpeg" />
     <meta name="og:type" content="website" />
     <meta name="og:image:type" content="image/jpeg" />
     <title>@yield('title') - Data Company</title>
@@ -111,9 +111,13 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <nav class="navbar navbar-expand-lg navbar-light">
-                            <a class="navbar-brand" href="index.html">
-                                <img class="img-fluid" src="images/logo.png" alt="img">
-                                <span style="margin-left: 10px">Data Company</span>
+                            @if(Auth::user())
+                            <a class="navbar-brand" href="/home">
+                            @else
+                            <a class="navbar-brand" href="/">
+                            @endif
+                                <img class="img-fluid" src="images/logo_red.png" alt="img">
+                                {{-- <span style="margin-left: 10px">Data Company</span> --}}
                             </a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse"
                                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
