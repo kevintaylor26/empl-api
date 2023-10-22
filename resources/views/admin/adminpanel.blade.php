@@ -75,14 +75,14 @@
             <img src="images/fancybox/overlay-dot2.png" class="overlay-right-top-2" alt="#">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-10 col-md-9">
+                    <div class="col-lg-9 col-md-9">
                         <div class="text-left iq-title-box pr-lg-5" style="margin-bottom: 5px;">
                             <h2 class="iq-title text-uppercase">Search Result</h2>
                             <p class="iq-line three"></p>
                         </div>
                     </div>
-                    <div class="col-lg-2 col-md-4" style="display: flex !important; justify-content: end;">
-                        <div id="btnUploadCsv" class="btn-container" style="width: 100px;">
+                    <div class="col-lg-3 col-md-4" style="display: flex !important; justify-content: end;">
+                        <div id="btnUploadCsv" class="btn-container">
                             <a class="iq-button d-inline-block" href="javascript:upload()"
                                 style="display: flex !important;padding-right: 10px; align-items: center; padding: 10px 20px;justify-content: center;">
                                 <span style="font-size: 18px;">Upload CSV</span><i class="fa fa-file-text-o"
