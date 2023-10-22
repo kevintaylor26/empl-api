@@ -25,3 +25,4 @@ Route::post('/auth/signup', [AuthController::class, 'signup'])->name('api.auth.s
 Route::middleware('auth')->post('/auth/autologin', [AuthController::class, 'autologin'])->name('api.auth.autologin');
 Route::middleware('auth')->post('/auth/changePassword', [AuthController::class, 'changePassword'])->name('api.auth.changePassword');
 Route::middleware('auth')->post('/marketings/search', [MarketingsController::class, 'search'])->name('api.marketings.search');
+Route::middleware('auth')->post('/marketings/admin_search', [MarketingsController::class, 'admin_search'])->name('api.marketings.admin_search');

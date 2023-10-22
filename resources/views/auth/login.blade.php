@@ -115,6 +115,16 @@
                 onClick: function() {} // Callback after click
             }).showToast();
         }
+        $('#password').on('keydown', function(e) {
+            if (e.keyCode == 13) {
+                $('#submit').trigger('click');
+            }
+        });
+        $('#email').on('keydown', function(e) {
+            if (e.keyCode == 13) {
+                $('#submit').trigger('click');
+            }
+        });
         $('#submit').click(function() {
             if (!$('#email').val()) {
                 toastMessage('error', 'Please type your email address');
@@ -140,13 +150,18 @@
                 },
                 success: function(res) {
                     if(res.code) {
-                        toastMessage('error', msg.message ?? 'An error occured while signning up');
+                        toastMessage('error', res.message ?? 'An error occured while logging in');
                     } else {
-                        window.location.href = '/home';
+                        if(res.user?.user_type == 0)
+                            window.location.href = '/home';
+                        else if (res.user?.user_type == 1)
+                            window.location.href = '/admin_panel';
+                        else
+                            toastMessage('error', 'Not valid user');
                     }
                 },
                 error: function(msg) {
-                    toastMessage('error', msg.message ?? 'An error occured while signning up');
+                    toastMessage('error', msg.message ?? 'An error occured while logging in');
                 }
             });
         })

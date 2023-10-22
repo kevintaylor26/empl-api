@@ -325,13 +325,13 @@
                         },
                         success: function(res) {
                             if (res.code) {
-                                toastMessage('error', res.message ?? 'An error occured while signning up');
+                                toastMessage('error', res.message ?? 'An error occured while updating password');
                             } else {
                                 toastMessage('success', 'Updated password successfully!');
                             }
                         },
                         error: function(msg) {
-                            toastMessage('error', msg.message ?? 'An error occured while signning up');
+                            toastMessage('error', msg.message ?? 'An error occured while updating password');
                         }
                     });
                 }

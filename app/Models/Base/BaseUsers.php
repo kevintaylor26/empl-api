@@ -34,6 +34,6 @@ class BaseUsers extends Authenticatable
     protected $table = 'users';
     protected string $comment = '用戶表';
 
-    protected $fillable = ['email', 'password', 'full_name', 'is_paid'];
+    protected $fillable = ['email', 'password', 'full_name', 'is_paid', 'user_type'];
     # endregion
 }

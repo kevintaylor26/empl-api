@@ -5844,3 +5844,29 @@ a:hover,
     border-color: #eb6e57;
     color: #eb6e57;
 }
+
+.display-flex {
+    display: flex;
+    align-items: center;
+}
+
+.form-label {
+    min-width: 100px;
+    text-align: right;
+}
+
+.admin-search-form {
+    margin-top: 10px;
+}
+
+.admin-search-form .search-field {
+    height: 35px;
+}
+
+.admin-footer {
+    padding-top: 40px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+}

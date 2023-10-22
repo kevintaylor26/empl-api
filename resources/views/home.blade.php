@@ -22,12 +22,12 @@
         <div class="popular-searches btn-container text-left">
             <a class="iq-button btn-radius" href="javascript:searchCriteria('Affiliate')"><span>Affiliate</span></a>
             <a class="iq-button btn-radius" href="javascript:searchCriteria('Andre')"><span>Andre</span></a>
-            <a class="iq-button btn-radius" href="about-us.html"><span>Advertiser</span></a>
-            <a class="iq-button btn-radius" href="about-us.html"><span>Summit</span></a>
-            <a class="iq-button btn-radius" href="about-us.html"><span>FindInfluencers</span></a>
-            <a class="iq-button btn-radius" href="about-us.html"><span>Clickdealer</span></a>
-            <a class="iq-button btn-radius" href="about-us.html"><span>Affilate Manager</span></a>
-            <a class="iq-button btn-radius" href="about-us.html"><span>Ad Network</span></a>
+            <a class="iq-button btn-radius" href="javascript:searchCriteria('Advertiser')"><span>Advertiser</span></a>
+            <a class="iq-button btn-radius" href="javascript:searchCriteria('Summit')"><span>Summit</span></a>
+            <a class="iq-button btn-radius" href="javascript:searchCriteria('FindInfluencers')"><span>FindInfluencers</span></a>
+            <a class="iq-button btn-radius" href="javascript:searchCriteria('Clickdealer')"><span>Clickdealer</span></a>
+            <a class="iq-button btn-radius" href="javascript:searchCriteria('Affilate Manager')"><span>Affilate Manager</span></a>
+            <a class="iq-button btn-radius" href="javascript:searchCriteria('Ad Network')"><span>Ad Network</span></a>
         </div>
         <section id="sectionSrchResult" class="overview-block-ptb" style="padding: 10px 0px; display: none;">
             <img src="images/fancybox/overlay-dot2.png" class="overlay-right-top-2" alt="#">
@@ -334,7 +334,7 @@
                         $('#msgFromServer').html(res.message);
                         $('#limitModal').modal('show');
                     } else {
-                        toastMessage('error', res.message ?? 'An error occured while signning up');
+                        toastMessage('error', res.message ?? 'An error occured while searching data');
                     }
 
                 },
@@ -344,7 +344,7 @@
                     $('#tbodyResult').html('');
                     let tagRes = '<tr><td colspan=5 class="no-result-found">No Result Found</td></tr>';
                     $('#tbodyResult').append($(tagRes));
-                    toastMessage('error', msg.message ?? 'An error occured while signning up');
+                    toastMessage('error', msg.message ?? 'An error occured while searching data');
                     console.log(msg);
                 }
             });

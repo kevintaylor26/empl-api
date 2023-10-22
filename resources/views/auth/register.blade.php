@@ -135,13 +135,13 @@
                 },
                 success: function(res) {
                     if(res.code) {
-                        toastMessage('error', msg.message ?? 'An error occured while signning up');
+                        toastMessage('error', msg.message ?? 'An error occured while changing password');
                     } else {
                         window.location.href = '/';
                     }
                 },
                 error: function(msg) {
-                    toastMessage('error', msg.message ?? 'An error occured while signning up');
+                    toastMessage('error', msg.message ?? 'An error occured while changing password');
                 }
             });
         })
