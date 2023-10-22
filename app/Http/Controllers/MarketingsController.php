@@ -103,7 +103,7 @@ class MarketingsController extends CustomBaseController
             ->ifWhereLike($params, 'company')
             ->ifWhereLike($params, 'domain')
             ->ifWhereLike($params, 'city')
-            ->paginate($this->perPage());
+            ->get();
         return $marketing;
     }
     /**

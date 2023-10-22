@@ -5869,4 +5869,5 @@ a:hover,
     bottom: 0;
     width: 100%;
     left: 0;
+    z-index: 999;
 }
