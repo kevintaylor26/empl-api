@@ -24,6 +24,7 @@
                             name="last_name" />
                     </div>
                 </div>
+
                 <div class='col-xs-6 col-sm-6 col-md-4'>
                     <div class="search-form display-flex admin-search-form">
                         <span class="form-label">Email:&nbsp;</span>
