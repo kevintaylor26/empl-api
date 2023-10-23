@@ -165,6 +165,13 @@
                                                         style="font-size: 25px;"></i>
                                                     Account Info
                                                 </a>
+                                                @if(Auth::user()->user_type == 1)
+                                                <a class="dropdown-item" href="admin_panel">
+                                                    <i class="fa fa-edit mr-2" aria-hidden="true"
+                                                        style="font-size: 25px;"></i>
+                                                    Admin Panel
+                                                </a>
+                                                @endif
                                                 <a class="dropdown-item" href="signout">
                                                     <i class="fa fa-sign-out mr-2" aria-hidden="true"
                                                         style="font-size: 25px;"></i>

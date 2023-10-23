@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html class="h-full bg-gray-100" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-@if(!Auth::user())
+@if (!Auth::user())
     <script>
         window.location.href = '/';
     </script>
@@ -122,8 +122,8 @@
                         <div class="col-sm-12">
                             <nav class="navbar navbar-expand-lg navbar-light">
                                 <a class="navbar-brand" href="/admin_panel">
-                                <img class="img-fluid" src="images/logo_black.png" alt="img">
-                                {{-- <span style="margin-left: 10px">Data Company</span> --}}
+                                    <img class="img-fluid" src="images/logo_black.png" alt="img">
+                                    {{-- <span style="margin-left: 10px">Data Company</span> --}}
                                 </a>
                                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -141,6 +141,27 @@
                                             <li class="nav-item dropdown" style="display: flex; align-items: center;">
                                                 <a class=" nav-instant-access nav-link d-inline-block"
                                                     style="padding: 5px 30px; font-size: 17px;"
+                                                    href="#">
+                                                    <span>
+                                                        Management
+                                                    </span>
+                                                </a>
+                                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                    <a class="dropdown-item" href="admin_panel">
+                                                        <i class="fa fa-trademark mr-2" aria-hidden="true"
+                                                            style="font-size: 25px;"></i>
+                                                        Trading Data
+                                                    </a>
+                                                    <a class="dropdown-item" href="users_management">
+                                                        <i class="fa fa-users mr-2" aria-hidden="true"
+                                                            style="font-size: 25px;"></i>
+                                                        Users
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li class="nav-item dropdown" style="display: flex; align-items: center;">
+                                                <a class=" nav-instant-access nav-link d-inline-block"
+                                                    style="padding: 5px 30px; font-size: 17px;"
                                                     href="javascript:void()">
                                                     <span>
                                                         <i class="fa fa-user-circle-o mr-1" aria-hidden="true"
@@ -154,6 +175,11 @@
                                                         <i class="fa fa-info-circle mr-2" aria-hidden="true"
                                                             style="font-size: 25px;"></i>
                                                         Account Info
+                                                    </a>
+                                                    <a class="dropdown-item" href="home">
+                                                        <i class="fa fa-home mr-2" aria-hidden="true"
+                                                            style="font-size: 25px;"></i>
+                                                        Homepage
                                                     </a>
                                                     <a class="dropdown-item" href="signout">
                                                         <i class="fa fa-sign-out mr-2" aria-hidden="true"

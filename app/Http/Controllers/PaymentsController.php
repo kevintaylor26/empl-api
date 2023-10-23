@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\StripeClient;
@@ -36,21 +37,26 @@ class PaymentsController extends CustomBaseController
             ],
             'quantity' => 1,
         ]];
-        $order = $client->checkout->sessions->create([
-            'line_items' => $items,
-            'mode' => 'payment',
-            'payment_intent_data' => [
-                'description' => 'This is test stripe mode'
-            ],
-            'success_url' => 'http://emaildata.co/paySuccess',
-            'cancel_url' => 'http://emaildata.co/home',
-            'customer_email' => auth()->user()->email,
-            'metadata' => [
-                'user_id' => auth()->user()->id,
-                'order_id' => strtoupper('D' . uniqid() . rand(1000, 9999)),
-            ],
-        ]);
-        return $order;
+        try{
+            $order = $client->checkout->sessions->create([
+                'line_items' => $items,
+                'mode' => 'payment',
+                'payment_intent_data' => [
+                    'description' => 'This is test stripe mode'
+                ],
+                'success_url' => route('payments.paySuccess'),
+                'cancel_url' => route('home'),
+                'customer_email' => auth()->user()->email,
+                'metadata' => [
+                    'user_id' => auth()->user()->id,
+                    'order_id' => strtoupper('D' . uniqid() . rand(1000, 9999)),
+                ],
+            ]);
+            return $order;
+        }catch(Exception $e){
+            return redirect('home');
+        }
+
     }
 
     function payment_hook($request)

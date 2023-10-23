@@ -320,3 +320,49 @@ Design and Developed by: iqonicthemes.in
 
 
 })(jQuery);
+
+function getPagination(res) {
+    let i = 0;
+    let pageTags = '';
+    if (res.last_page <= 6) {
+        for (i = 0; i < s.last_page; i++) {
+            if (i == res.current_page - 1)
+                pageTags += '<li pageNum=' + (i + 1) + '><span class="page-numbers current">' + (i + 1) + '</a></li>';
+            else
+                pageTags += '<li pageNum=' + (i + 1) + '><span class="page-numbers">' + (i + 1) + '</a></li>';
+        }
+    } else {
+        pageTags += '<li pageNum=1"><span class="page-numbers"> First </a></li>';
+        if (res.current_page < 5) {
+            for (i = 0; i < 5; i++) {
+                if (i == res.current_page - 1)
+                    pageTags += '<li pageNum=' + (i + 1) + '><span class="page-numbers current">' + (i + 1) + '</a></li>';
+                else
+                    pageTags += '<li pageNum=' + (i + 1) + '><span class="page-numbers">' + (i + 1) + '</a></li>';
+            }
+            pageTags += '<li pageNum=' + 6 + '><span class="page-numbers">...</a></li>';
+            pageTags += '<li pageNum=' + (res.last_page) + '><span class="page-numbers">' + res.last_page + '</a></li>';
+        } else if (res.current_page >= 5 && res.current_page <= res.last_page - 5) {
+            pageTags += '<li pageNum=' + (res.current_page - 3 < 1 ? 1 : res.current_page - 3) + '><span class="page-numbers">...</a></li>';
+            for (i = res.current_page - 2; i < res.current_page + 3; i++) {
+                if (i == res.current_page - 1)
+                    pageTags += '<li pageNum=' + (i + 1) + '><span class="page-numbers current">' + (i + 1) + '</a></li>';
+                else
+                    pageTags += '<li pageNum=' + (i + 1) + '><span class="page-numbers">' + (i + 1) + '</a></li>';
+            }
+            pageTags += '<li pageNum=' + (res.current_page + 3 > res.last_page ? res.last_page : res.current_page + 3) + '><span class="page-numbers">...</a></li>';
+            pageTags += '<li pageNum=' + (res.last_page) + '><span class="page-numbers">' + res.last_page + '</a></li>';
+        } else if (res.current_page > res.last_page - 5) {
+            pageTags += '<li pageNum=1"><span class="page-numbers">1</a></li>';
+            pageTags += '<li pageNum=' + (res.last_page - 6) + '><span class="page-numbers">...</a></li>';
+            for (i = res.last_page - 5; i < res.last_page; i++) {
+                if (i == res.current_page - 1)
+                    pageTags += '<li pageNum=' + (i + 1) + '><span class="page-numbers current">' + (i + 1) + '</a></li>';
+                else
+                    pageTags += '<li pageNum=' + (i + 1) + '><span class="page-numbers">' + (i + 1) + '</a></li>';
+            }
+        }
+        pageTags += '<li pageNum=' + res.last_page + '><span class="page-numbers"> Last </a></li>';
+    }
+    return pageTags;
+}

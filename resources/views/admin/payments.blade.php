@@ -28,7 +28,7 @@
                     <div class="search-form display-flex admin-search-form">
                         <span class="form-label">Email:&nbsp;</span>
                         <input type="search" class="search-field" value="" role="presentation" autocomplete="off"
-                            name="email" />
+                            name="addr_email" />
                     </div>
                 </div>
                 <div class='col-xs-6 col-sm-6 col-md-4'>
@@ -74,7 +74,7 @@
                 <div class="row">
                     <div class="col-lg-9 col-md-9">
                         <div class="text-left iq-title-box pr-lg-5" style="margin-bottom: 5px;">
-                            <h2 class="iq-title text-uppercase">Search Result<span style="font-size: 26px; margin-left: 10px;" id="spanTotal"></span></h2>
+                            <h2 class="iq-title text-uppercase">Search Result</h2>
                             <p class="iq-line three"></p>
                         </div>
                     </div>
@@ -135,7 +135,6 @@
         function searchCriteria() {
             $('#preloader').show();
             $('#pagination').html('');
-            $('#spanTotal').html('');
             $.ajax({
                 url: url,
                 type: "POST",
@@ -189,7 +188,6 @@
                                     searchCriteria();
                                 })
                             }
-                            $('#spanTotal').html(' (Total: ' + res.total + ')');
                         } else {
                             let tagRes = '<tr><td colspan=5 class="no-result-found">No Result Found</td></tr>';
                             $('#tbodyResult').append($(tagRes));

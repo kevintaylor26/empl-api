@@ -11,6 +11,7 @@ use App\Traits\ControllerTrait;
 use Exception;
 use Generator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Rap2hpoutre\FastExcel\Facades\FastExcel;
 
 class MarketingsController extends CustomBaseController
@@ -67,8 +68,7 @@ class MarketingsController extends CustomBaseController
             ->orWhereLike($params['criteria'], 'company')
             ->orWhereLike($params['criteria'], 'domain')
             ->orWhereLike($params['criteria'], 'city')
-            ->get();
-            // ->paginate($this->perPage());
+            ->paginate($this->perPage());
         return $marketing;
     }
 
@@ -103,7 +103,7 @@ class MarketingsController extends CustomBaseController
             ->ifWhereLike($params, 'company')
             ->ifWhereLike($params, 'domain')
             ->ifWhereLike($params, 'city')
-            ->get();
+            ->paginate($this->perPage());
         return $marketing;
     }
     /**

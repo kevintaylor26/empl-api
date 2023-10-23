@@ -24,5 +24,13 @@ class AdminController extends CustomBaseController
     {
         return view('admin.adminpanel');
     }
+    public function users()
+    {
+        return view('admin.users');
+    }
 
+    public function payments()
+    {
+        return view('admin.payments');
+    }
 }

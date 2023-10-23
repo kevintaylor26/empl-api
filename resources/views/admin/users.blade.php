@@ -6,57 +6,15 @@
 
     <main class="page-content" style="margin-top: 75px;">
         <h2 class="title" style="text-align: center">
-            Email Data
+            Users Management
         </h2>
         <form class='container' autocomplete="off">
             <div class='row'>
                 <div class='col-xs-6 col-sm-6 col-md-4'>
                     <div class="search-form display-flex admin-search-form">
-                        <span class="form-label">First Name:&nbsp;</span>
-                        <input type="search" class="search-field" value="" role="presentation" autocomplete="off"
-                            name="first_name" />
-                    </div>
-                </div>
-                <div class='col-xs-6 col-sm-6 col-md-4'>
-                    <div class="search-form display-flex admin-search-form">
-                        <span class="form-label">Last Name:&nbsp;</span>
-                        <input type="search" class="search-field" value="" role="presentation" autocomplete="off"
-                            name="last_name" />
-                    </div>
-                </div>
-                <div class='col-xs-6 col-sm-6 col-md-4'>
-                    <div class="search-form display-flex admin-search-form">
                         <span class="form-label">Email:&nbsp;</span>
                         <input type="search" class="search-field" value="" role="presentation" autocomplete="off"
                             name="email" />
-                    </div>
-                </div>
-                <div class='col-xs-6 col-sm-6 col-md-4'>
-                    <div class="search-form display-flex admin-search-form">
-                        <span class="form-label">Title:&nbsp;</span>
-                        <input type="search" class="search-field" value="" role="presentation" autocomplete="off"
-                            name="title" />
-                    </div>
-                </div>
-                <div class='col-xs-6 col-sm-6 col-md-4'>
-                    <div class="search-form display-flex admin-search-form">
-                        <span class="form-label">Company:&nbsp;</span>
-                        <input type="search" class="search-field" value="" role="presentation" autocomplete="off"
-                            name="company" />
-                    </div>
-                </div>
-                <div class='col-xs-6 col-sm-6 col-md-4'>
-                    <div class="search-form display-flex admin-search-form">
-                        <span class="form-label">Domain:&nbsp;</span>
-                        <input type="search" class="search-field" value="" role="presentation" autocomplete="off"
-                            name="domain" />
-                    </div>
-                </div>
-                <div class='col-xs-6 col-sm-6 col-md-4'>
-                    <div class="search-form display-flex admin-search-form">
-                        <span class="form-label">City:&nbsp;</span>
-                        <input type="search" class="search-field" value="" role="presentation" autocomplete="off"
-                            name="city" />
                     </div>
                 </div>
             </div>
@@ -75,7 +33,6 @@
                     <div class="col-lg-9 col-md-9">
                         <div class="text-left iq-title-box pr-lg-5" style="margin-bottom: 5px;">
                             <h2 class="iq-title text-uppercase">Search Result<span style="font-size: 26px; margin-left: 10px;" id="spanTotal"></span></h2>
-                            <p class="iq-line three"></p>
                         </div>
                     </div>
                     {{-- <div class="col-lg-3 col-md-4" style="display: flex !important; justify-content: end;">
@@ -88,16 +45,16 @@
                         </div>
                     </div> --}}
                 </div>
-                <div class="row justify-content-sm-center">
+                <div class="row justify-content-sm-center" style=" min-height: 300px;">
                     <div class="col-sm-12">
-                        <table style="z-index: 2; min-height: 300px;">
+                        <table style="z-index: 2;">
                             <thead>
                                 <tr style="background: white">
-                                    <th style="width: 140px;">Full Name</th>
-                                    <th style="width: 200px;">Position</th>
-                                    <th style="width: 200px;">Company</th>
-                                    <th style="min-width: 200px;">Contact</th>
-                                    <th style="min-width: 200px;">Address</th>
+                                    <th style="width: 140px;">Email</th>
+                                    <th style="width: 200px;">Created At</th>
+                                    <th style="width: 200px;">Full Access</th>
+                                    <th style="width: 200px;">Pait At</th>
+                                    <th style="min-width: 200px;">Operate</th>
                                 </tr>
                             </thead>
                             <tbody id="tbodyResult">
@@ -114,18 +71,38 @@
             <img src="images/fancybox/overlay.png" class="overlay-left-bottom" alt="#" style="z-index: -1">
         </section>
 
+        <div id="deleteModal" tabindex="-1" aria-hidden="true" class="modal fade">
+            <div class="modal-dialog" size="lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Warning</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3 style="text-align: center" id='emailWarning'>Are you sure to delete?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger">Yes</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     </main>
 
     <script>
-        const url = "{{ route('api.marketings.admin_search') }}";
+        const url = "{{ route('api.users.users_search') }}";
         let lastQuery = '';
         let curPage = 1;
+        let delEmail = '';
         function download() {
             if (lastQuery) {
                 var link = document.createElement("a");
-                link.href = "{{ route('marketings.admin_download') }}" + "?criteria=" + lastQuery;
+                link.href = "{{ route('admin.users.download') }}" + "?criteria=" + lastQuery;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -141,13 +118,7 @@
                 type: "POST",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    first_name: $('input[name="first_name"]').val(),
-                    last_name: $('input[name="last_name"]').val(),
-                    email: $('input[name="addr_email"]').val(),
-                    title: $('input[name="title"]').val(),
-                    company: $('input[name="company"]').val(),
-                    domain: $('input[name="domain"]').val(),
-                    city: $('input[name="city"]').val(),
+                    email: $('input[name="email"]').val(),
                     page: curPage,
                     perPage: 20,
                 },
@@ -159,24 +130,11 @@
                         if (res?.data?.length > 0) {
                             res?.data.forEach(function(item) {
                                 let tagRes = '<tr>';
-                                tagRes += '<td class="result-detail text-left">' + item.first_name +
-                                    ' ' + item.last_name + '</td>';
-                                tagRes += '<td class="result-detail">' + item.title + '</td>';
-                                const domain = item.domain.startsWith('http') ? item.domain :
-                                    'https://' + item.domain
-                                let domainUrl = '<br><a href="' + domain + '" target="_blank">' + item
-                                    .domain + '</a>';
-                                tagRes += '<td class="result-detail">' + item.company + domainUrl +
-                                    '</td>';
-                                const email =
-                                    '<i class="ion-ios-email" style="vertical-align: middle; font-size: 20px;"></i> : <a class="email-link" style="line-break: anywhere" href="mailto:' +
-                                    item.email + '">' + item.email + '</a>';;
-                                const linkedin =
-                                    '<br><i class="ion-social-linkedin" style="vertical-align: middle; font-size: 20px;"></i> : <a class="email-link" href="' +
-                                    item.linkedin_url + '">LinkedIn</a>';
-                                tagRes += '<td class="result-detail text-left">' + email + linkedin +
-                                    '</td>';
-                                tagRes += '<td class="result-detail">' + item.city + '</td>';
+                                tagRes += '<td class="result-detail text-left">' + item.email + '</td>';
+                                tagRes += '<td class="result-detail">' + item.created_at + '</td>';
+                                tagRes += '<td class="result-detail text-center"><input type="checkbox" style="width: 100%; height: 25px;" readonly onclick="return false;" ' + (item.is_paid ? 'checked' : '') + '></td>';
+                                tagRes += '<td class="result-detail">' + (item.last_paid_at ?? '') + '</td>';
+                                tagRes += '<td class="result-detail"><button class="btn btn-danger user-delete" email="' + item.email + '">Delete</button>' + '</td>';
                                 tagRes += '</tr>';
                                 $('#tbodyResult').append($(tagRes));
                             });
@@ -189,6 +147,12 @@
                                     searchCriteria();
                                 })
                             }
+                            $('.user-delete').off('click');
+                            $('.user-delete').click(function(){
+                                email = $(this).attr('email');
+                                $('#emailWarning').html('Are you sure to delete <span style="font-family:inherit; color: red;">' + email + '</span> user?');
+                                $('#deleteModal').modal('show');
+                            })
                             $('#spanTotal').html(' (Total: ' + res.total + ')');
                         } else {
                             let tagRes = '<tr><td colspan=5 class="no-result-found">No Result Found</td></tr>';

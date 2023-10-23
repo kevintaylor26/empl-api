@@ -6,7 +6,7 @@
 
     <main class="page-content" style="margin-top: 75px;">
         <div id="search-2" class="widget widget_search" style="margin-bottom: 0px">
-            <div class="search-form">
+            <form class="search-form" autocomplete="off" >
                 <label for="search-form-5e875eae921cb">
                     <span class="screen-reader-text">Search for:</span>
                 </label>
@@ -14,7 +14,7 @@
                     name="criteria" />
                 <button type="submit" class="search-submit" id="btnSearch"><i class="fa fa-search"></i><span
                         class="screen-reader-text">Search</span></button>
-            </div>
+            </form>
         </div>
         <h2 class="title" style="text-align: center">
             Popular Searches
@@ -35,7 +35,7 @@
                 <div class="row">
                     <div class="col-lg-10 col-md-9">
                         <div class="text-left iq-title-box pr-lg-5" style="margin-bottom: 5px;">
-                            <h2 class="iq-title text-uppercase">Search Result</h2>
+                            <h2 class="iq-title text-uppercase">Search Result<span style="font-size: 26px; margin-left: 10px;" id="spanTotal"></span></h2>
                             <p class="iq-line three"></p>
                         </div>
                     </div>
@@ -65,6 +65,10 @@
 
                             </tbody>
                         </table>
+                    </div>
+                    <div class="col-12 text-center">
+                        <ul class="page-numbers" id="pagination">
+                         </ul>
                     </div>
                 </div>
             </div>
@@ -272,6 +276,7 @@
             const url = "{{ route('api.marketings.free_search') }}";
         @endif
         let lastQuery = '';
+        let curPage = 1;
 
         function download() {
             if (lastQuery) {
@@ -288,21 +293,25 @@
             lastQuery = criteria;
             $('input[name="criteria"]').val(criteria);
             $('#preloader').show();
+            $('#pagination').html('');
+            $('#spanTotal').html('');
             $.ajax({
                 url: url,
                 type: "POST",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    criteria: criteria
+                    criteria: criteria,
+                    page: curPage,
+                    perPage: 20,
                 },
                 success: function(res) {
                     $('#preloader').hide();
                     if (!res.code) {
                         $('#sectionSrchResult').show();
                         $('#tbodyResult').html('');
-                        if (res?.length > 0) {
+                        if (res?.data?.length > 0) {
                             $('#btnDownloadCsv').show();
-                            res.forEach(function(item) {
+                            res.data?.forEach(function(item) {
                                 let tagRes = '<tr>';
                                 tagRes += '<td class="result-detail text-left">' + item.first_name +
                                     ' ' + item.last_name + '</td>';
@@ -314,7 +323,7 @@
                                 tagRes += '<td class="result-detail">' + item.company + domainUrl +
                                     '</td>';
                                 const email =
-                                    '<i class="ion-ios-email" style="vertical-align: middle; font-size: 20px;"></i> : <a class="email-link" href="' +
+                                    '<i class="ion-ios-email" style="vertical-align: middle; font-size: 20px;"></i> : <a class="email-link" href="mailto:' +
                                     item.email + '">' + item.email + '</a>';;
                                 const linkedin =
                                     '<br><i class="ion-social-linkedin" style="vertical-align: middle; font-size: 20px;"></i> : <a class="email-link" href="' +
@@ -324,7 +333,17 @@
                                 tagRes += '<td class="result-detail">' + item.city + '</td>';
                                 tagRes += '</tr>';
                                 $('#tbodyResult').append($(tagRes));
-                            })
+                            });
+                            if(res.total > res.per_page) {
+                                const pageTags = getPagination(res);
+                                $('#pagination').html(pageTags);
+                                $('#pagination li').off('click');
+                                $('#pagination li').click(function() {
+                                    curPage = $(this).attr('pageNum');
+                                    searchCriteria($('input[name="criteria"]').val());
+                                })
+                            }
+                            $('#spanTotal').html(' (Total: ' + res.total + ')');
                         } else {
                             $('#btnDownloadCsv').hide();
                             let tagRes = '<tr><td colspan=5 class="no-result-found">No Result Found</td></tr>';
@@ -351,11 +370,19 @@
         }
         $('#inputCriteria').on('keydown', function(e) {
             if (e.keyCode == 13) {
+                curPage = 1;
                 searchCriteria($('input[name="criteria"]').val());
             }
         });
         $('#btnSearch').click(function() {
+            curPage = 1;
             searchCriteria($('input[name="criteria"]').val());
         })
+        $('form').on('keypress', function(e) {
+            var key = e.charCode || e.keyCode || 0;
+            if (key == 13) {
+                e.preventDefault();
+            }
+        });
     </script>
 @endsection

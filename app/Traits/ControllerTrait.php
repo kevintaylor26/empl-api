@@ -16,6 +16,7 @@ trait ControllerTrait
     protected function getPage(): int
     {
         $params = request()->only('page');
+        error_log('Get Page' . json_encode($params));
         if (!isset($params['page']) || !is_numeric($params['page']))
             return 1;
 
@@ -30,6 +31,7 @@ trait ControllerTrait
     protected function perPage(): int
     {
         $params = request()->only('perPage');
+        error_log('Per Page' . json_encode($params));
         if (!isset($params['perPage']) || !is_numeric($params['perPage']))
             return 20;
 
